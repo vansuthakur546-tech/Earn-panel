@@ -424,7 +424,9 @@ Save Profile
 const SUPABASE_URL =
 "https://nifuokxsyjkqkyrlcwiv.supabase.co";
 
+const SUPABASE_PUBLISHABLE_KEY =
 sb_publishable_KGM5pbp1HlKc4bSxAhhpGg_1HTxIjG8
+
 
 const supabaseClient =
 supabase.createClient(
