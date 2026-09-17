@@ -422,9 +422,6 @@ Save Profile
 ========================= */
 
 const SUPABASE_URL =
-"sb_publishable_KGM5...";"https://nifuokxsyjkqkyrlcwiv.supabase.co";
-
-const SUPABASE_URL =
 "https://nifuokxsyjkqkyrlcwiv.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
