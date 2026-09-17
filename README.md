@@ -21,9 +21,9 @@ body{
 header{
   background:#111827;
   color:white;
-  padding:18px;
+  padding:20px;
   text-align:center;
-  font-size:22px;
+  font-size:24px;
   font-weight:bold;
 }
 
@@ -33,11 +33,19 @@ header{
   padding:20px;
 }
 
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
 .balance{
   background:#111827;
   color:white;
   padding:25px;
-  border-radius:16px;
+  border-radius:18px;
   margin-bottom:20px;
 }
 
@@ -46,14 +54,14 @@ header{
 }
 
 .balance h1{
-  margin-top:8px;
-  font-size:32px;
+  margin:8px 0;
+  font-size:34px;
 }
 
 .menu{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px;
+  gap:15px;
 }
 
 .card{
@@ -76,39 +84,31 @@ header{
 button{
   width:100%;
   margin-top:15px;
-  padding:12px;
+  padding:13px;
   border:0;
   border-radius:10px;
   background:#2563eb;
   color:white;
   font-size:15px;
   font-weight:bold;
-  cursor:pointer;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
 }
 
 .back{
   background:#374151;
-  margin-bottom:15px;
+  margin-bottom:18px;
 }
 
-.task{
+.task,
+.history{
   background:white;
   padding:18px;
   border-radius:14px;
-  margin-bottom:12px;
+  margin-bottom:14px;
   box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
 .task h3{
-  margin-bottom:7px;
+  margin-bottom:8px;
 }
 
 .task p{
@@ -125,18 +125,11 @@ input{
   outline:none;
 }
 
-.history{
-  background:white;
-  padding:16px;
-  border-radius:12px;
-  margin-bottom:10px;
-}
-
 footer{
   text-align:center;
   color:#777;
-  font-size:13px;
   padding:30px 10px;
+  font-size:13px;
 }
 
 @media(max-width:500px){
@@ -150,152 +143,170 @@ footer{
 <body>
 
 <header>
-  💰 Earn Panel
+💰 Earn Panel
 </header>
 
 <div class="container">
 
-  <!-- DASHBOARD -->
-  <section id="home" class="page active">
+<!-- HOME -->
+<section id="home" class="page active">
 
-    <div class="balance">
-      <small>Available Balance</small>
-      <h1>₹0.00</h1>
-      <p>Complete genuine tasks to earn.</p>
-    </div>
+<div class="balance">
+<small>Available Balance</small>
+<h1>₹0.00</h1>
+<p>Complete genuine tasks to earn.</p>
+</div>
 
-    <div class="menu">
+<div class="menu">
 
-      <div class="card">
-        <div style="font-size:30px;">📋</div>
-        <h3>Complete Tasks</h3>
-        <p>View available genuine tasks and services.</p>
-        <button onclick="showPage('tasks')">View Tasks</button>
-      </div>
+<div class="card">
+<div style="font-size:30px;">📋</div>
+<h3>Complete Tasks</h3>
+<p>View available genuine tasks and services.</p>
+<button onclick="showPage('tasks')">View Tasks</button>
+</div>
 
-      <div class="card">
-        <div style="font-size:30px;">📈</div>
-        <h3>Earning History</h3>
-        <p>See your completed tasks and earnings.</p>
-        <button onclick="showPage('history')">View History</button>
-      </div>
+<div class="card">
+<div style="font-size:30px;">📈</div>
+<h3>Earning History</h3>
+<p>See your completed tasks and earnings.</p>
+<button onclick="showPage('history')">View History</button>
+</div>
 
-      <div class="card">
-        <div style="font-size:30px;">💸</div>
-        <h3>Withdraw</h3>
-        <p>Submit a withdrawal request when eligible.</p>
-        <button onclick="showPage('withdraw')">Request Withdrawal</button>
-      </div>
+<div class="card">
+<div style="font-size:30px;">💸</div>
+<h3>Withdraw</h3>
+<p>Submit a withdrawal request when eligible.</p>
+<button onclick="showPage('withdraw')">Request Withdrawal</button>
+</div>
 
-      <div class="card">
-        <div style="font-size:30px;">👤</div>
-        <h3>Profile</h3>
-        <p>Manage your account information.</p>
-        <button onclick="showPage('profile')">Open Profile</button>
-      </div>
+<div class="card">
+<div style="font-size:30px;">👤</div>
+<h3>Profile</h3>
+<p>Manage your account information.</p>
+<button onclick="showPage('profile')">Open Profile</button>
+</div>
 
-    </div>
-
-  </section>
-
-
-  <!-- TASKS -->
-  <section id="tasks" class="page">
-
-    <button class="back" onclick="showPage('home')">← Back to Dashboard</button>
-
-    <h2 style="margin-bottom:15px;">📋 Available Tasks</h2>
-
-    <div class="task">
-      <h3>Task 1</h3>
-      <p>Genuine task will appear here after the backend is connected.</p>
-      <button onclick="alert('This task is not active yet.')">View Task</button>
-    </div>
-
-    <div class="task">
-      <h3>Task 2</h3>
-      <p>Task details and reward information will appear here.</p>
-      <button onclick="alert('This task is not active yet.')">View Task</button>
-    </div>
-
-    <div class="task">
-      <h3>Task 3</h3>
-      <p>More verified tasks can be added from the admin panel.</p>
-      <button onclick="alert('This task is not active yet.')">View Task</button>
-    </div>
-
-  </section>
+</div>
+</section>
 
 
-  <!-- HISTORY -->
-  <section id="history" class="page">
+<!-- TASKS -->
+<section id="tasks" class="page">
 
-    <button class="back" onclick="showPage('home')">← Back to Dashboard</button>
+<button class="back" onclick="showPage('home')">
+← Back to Dashboard
+</button>
 
-    <h2 style="margin-bottom:15px;">📈 Earning History</h2>
+<h2>📋 Available Tasks</h2>
 
-    <div class="history">
-      <strong>No earnings yet</strong>
-      <p style="color:#777;margin-top:5px;">
-        Your completed genuine tasks will appear here.
-      </p>
-    </div>
+<div class="task" style="margin-top:15px;">
+<h3>Task 1</h3>
+<p>Verified genuine task will appear here.</p>
+<button onclick="alert('This task is not active yet.')">
+View Task
+</button>
+</div>
 
-  </section>
+<div class="task">
+<h3>Task 2</h3>
+<p>Task details and reward will appear here.</p>
+<button onclick="alert('This task is not active yet.')">
+View Task
+</button>
+</div>
 
+<div class="task">
+<h3>Task 3</h3>
+<p>More verified tasks can be added later.</p>
+<button onclick="alert('This task is not active yet.')">
+View Task
+</button>
+</div>
 
-  <!-- WITHDRAW -->
-  <section id="withdraw" class="page">
-
-    <button class="back" onclick="showPage('home')">← Back to Dashboard</button>
-
-    <h2>💸 Withdraw</h2>
-
-    <div class="card" style="margin-top:15px;">
-      <p>
-        Withdrawal requests will become available after your
-        account has an eligible balance.
-      </p>
-
-      <input type="text" placeholder="UPI ID">
-
-      <input type="number" placeholder="Amount">
-
-      <button onclick="alert('Withdrawal system will be connected with the backend later.')">
-        Submit Request
-      </button>
-    </div>
-
-  </section>
+</section>
 
 
-  <!-- PROFILE -->
-  <section id="profile" class="page">
+<!-- HISTORY -->
+<section id="history" class="page">
 
-    <button class="back" onclick="showPage('home')">← Back to Dashboard</button>
+<button class="back" onclick="showPage('home')">
+← Back to Dashboard
+</button>
 
-    <h2>👤 Profile</h2>
+<h2>📈 Earning History</h2>
 
-    <div class="card" style="margin-top:15px;">
+<div class="history" style="margin-top:15px;">
+<strong>No earnings yet</strong>
+<p style="color:#777;margin-top:7px;">
+Your completed tasks and genuine earnings will appear here.
+</p>
+</div>
 
-      <label>Name</label>
-      <input type="text" placeholder="Your name">
+</section>
 
-      <label style="display:block;margin-top:15px;">Email</label>
-      <input type="email" placeholder="Your email">
 
-      <button onclick="alert('Profile saving will be connected with the database later.')">
-        Save Profile
-      </button>
+<!-- WITHDRAW -->
+<section id="withdraw" class="page">
 
-    </div>
+<button class="back" onclick="showPage('home')">
+← Back to Dashboard
+</button>
 
-  </section>
+<h2>💸 Withdraw</h2>
+
+<div class="card" style="margin-top:15px;">
+
+<p>
+Withdrawal requests will be available when your balance meets
+the required minimum.
+</p>
+
+<input type="text" placeholder="UPI ID">
+
+<input type="number" placeholder="Withdrawal Amount">
+
+<button onclick="alert('Withdrawal system will be connected to the database later.')">
+Submit Withdrawal Request
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+
+<button class="back" onclick="showPage('home')">
+← Back to Dashboard
+</button>
+
+<h2>👤 Profile</h2>
+
+<div class="card" style="margin-top:15px;">
+
+<label>Name</label>
+<input type="text" placeholder="Enter your name">
+
+<label style="display:block;margin-top:15px;">
+Email
+</label>
+
+<input type="email" placeholder="Enter your email">
+
+<button onclick="alert('Profile saving will be connected to the database later.')">
+Save Profile
+</button>
+
+</div>
+
+</section>
 
 </div>
 
 <footer>
-  © 2026 Earn Panel
+© 2026 Earn Panel
 </footer>
 
 
@@ -303,18 +314,19 @@ footer{
 
 function showPage(pageId){
 
-  let pages = document.querySelectorAll(".page");
+let pages = document.querySelectorAll(".page");
 
-  pages.forEach(function(page){
-    page.classList.remove("active");
-  });
+pages.forEach(function(page){
+page.classList.remove("active");
+});
 
-  document.getElementById(pageId).classList.add("active");
+document.getElementById(pageId).classList.add("active");
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
 
 </script>
