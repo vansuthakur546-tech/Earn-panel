@@ -1,158 +1,479 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Earn Panel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earn Panel</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    body {
-      background: #f4f6fb;
-      color: #222;
-    }
-
-    header {
-      background: #111827;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 26px;
-    }
-
-    header p {
-      margin-top: 6px;
-      color: #cbd5e1;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .balance {
-      background: #2563eb;
-      color: white;
-      padding: 25px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-    }
-
-    .balance small {
-      opacity: .85;
-    }
-
-    .balance h2 {
-      font-size: 34px;
-      margin-top: 8px;
-    }
-
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.06);
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      color: #64748b;
-      margin-bottom: 15px;
-    }
-
-    button {
-      width: 100%;
-      border: none;
-      padding: 13px;
-      border-radius: 10px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    button:active {
-      transform: scale(.98);
-    }
-
-    .withdraw {
-      background: #16a34a;
-    }
-
-    footer {
-      text-align: center;
-      color: #64748b;
-      padding: 25px;
-      font-size: 13px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6f9;
+  color:#222;
+}
+header{
+  background:#111827;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-size:24px;
+  font-weight:bold;
+}
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+.card{
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+input{
+  width:100%;
+  padding:13px;
+  margin:7px 0;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+button{
+  border:0;
+  padding:12px 18px;
+  border-radius:8px;
+  background:#111827;
+  color:white;
+  cursor:pointer;
+  margin-top:8px;
+}
+button.secondary{background:#6b7280}
+button.green{background:#16a34a}
+button.red{background:#dc2626}
+.hidden{display:none}
+.nav{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+.nav button{flex:1}
+.task{
+  border:1px solid #e5e7eb;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+.reward{
+  font-size:18px;
+  font-weight:bold;
+  margin-top:8px;
+}
+.msg{
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  background:#f3f4f6;
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Earn Panel</h1>
-    <p>Online Services & Earning Dashboard</p>
-  </header>
+<header>💰 Earn Panel</header>
 
-  <div class="container">
+<div class="container">
 
-    <div class="balance">
-      <small>Available Balance</small>
-      <h2>₹0.00</h2>
-    </div>
+<!-- AUTH -->
+<div id="authPage">
 
-    <div class="card">
-      <h3>📋 Complete Tasks</h3>
-      <p>Complete available genuine tasks and earn rewards.</p>
-      <button onclick="alert('No tasks available right now.')">
-        View Tasks
-      </button>
-    </div>
+  <div class="card">
+    <h2>Login</h2>
 
-    <div class="card">
-      <h3>📈 Earning History</h3>
-      <p>Your completed task and earning history will appear here.</p>
-      <button onclick="alert('No earning history yet.')">
-        View History
-      </button>
-    </div>
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
 
-    <div class="card">
-      <h3>💸 Withdraw</h3>
-      <p>Withdrawal requests can be submitted when you reach the minimum balance.</p>
-      <button class="withdraw" onclick="alert('Minimum withdrawal requirement has not been reached.')">
-        Request Withdrawal
-      </button>
-    </div>
+    <button onclick="login()">Login</button>
+    <button class="secondary" onclick="showSignup()">Create Account</button>
 
-    <div class="card">
-      <h3>👤 Profile</h3>
-      <p>Manage your account information.</p>
-      <button onclick="alert('Profile section coming soon.')">
-        Open Profile
-      </button>
-    </div>
-
+    <div id="loginMsg" class="msg hidden"></div>
   </div>
 
-  <footer>
-    © 2026 Earn Panel
-  </footer>
+  <div id="signupBox" class="card hidden">
+    <h2>Create Account</h2>
+
+    <input id="signupEmail" type="email" placeholder="Email">
+    <input id="signupPassword" type="password" placeholder="Password">
+
+    <button class="green" onclick="signup()">Sign Up</button>
+    <button class="secondary" onclick="showLogin()">Back to Login</button>
+
+    <div id="signupMsg" class="msg hidden"></div>
+  </div>
+
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden">
+
+  <div class="nav">
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('tasks')">Tasks</button>
+    <button onclick="showPage('history')">History</button>
+    <button onclick="showPage('profile')">Profile</button>
+  </div>
+
+  <!-- HOME -->
+  <div id="homePage" class="card page">
+    <h2>Welcome 👋</h2>
+    <p id="userEmail"></p>
+
+    <h3>Your Balance</h3>
+    <div style="font-size:30px;font-weight:bold">
+      ₹<span id="balance">0.00</span>
+    </div>
+
+    <button class="green" onclick="showPage('tasks')">
+      View Available Tasks
+    </button>
+
+    <button class="red" onclick="logout()">
+      Logout
+    </button>
+  </div>
+
+  <!-- TASKS -->
+  <div id="tasksPage" class="card page hidden">
+    <h2>Available Tasks</h2>
+
+    <div id="taskList">
+      <p>Loading tasks...</p>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="historyPage" class="card page hidden">
+    <h2>Earning History</h2>
+    <p>No approved earnings yet.</p>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profilePage" class="card page hidden">
+    <h2>Profile</h2>
+
+    <p><b>Email:</b></p>
+    <p id="profileEmail"></p>
+
+    <button class="red" onclick="logout()">Logout</button>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =====================================
+   SUPABASE CONNECTION
+   ===================================== */
+
+/*
+ IMPORTANT:
+ Replace ONLY the value of SUPABASE_ANON_KEY
+ with your existing Supabase publishable/anon key.
+ Do NOT use the service-role key.
+*/
+
+const SUPABASE_URL =
+"https://nifuokxsyjkqkyrlcwiv.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  sb_publishable_KGM5pbp1HlKc4bSxAhhpGg_1HTxIjG8
+
+
+const supabaseClient =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+
+/* =====================================
+   AUTH
+   ===================================== */
+
+async function signup(){
+
+  const email =
+    document.getElementById("signupEmail").value.trim();
+
+  const password =
+    document.getElementById("signupPassword").value;
+
+  const msg =
+    document.getElementById("signupMsg");
+
+  if(!email || !password){
+    msg.classList.remove("hidden");
+    msg.innerText="Email and password required.";
+    return;
+  }
+
+  const {data,error} =
+    await supabaseClient.auth.signUp({
+      email:email,
+      password:password
+    });
+
+  msg.classList.remove("hidden");
+
+  if(error){
+    msg.innerText=error.message;
+    return;
+  }
+
+  msg.innerText="Account created. You can now login.";
+}
+
+
+async function login(){
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const msg =
+    document.getElementById("loginMsg");
+
+  if(!email || !password){
+    msg.classList.remove("hidden");
+    msg.innerText="Email and password required.";
+    return;
+  }
+
+  const {data,error} =
+    await supabaseClient.auth.signInWithPassword({
+      email:email,
+      password:password
+    });
+
+  msg.classList.remove("hidden");
+
+  if(error){
+    msg.innerText=error.message;
+    return;
+  }
+
+  openDashboard(data.user);
+}
+
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  document
+    .getElementById("dashboard")
+    .classList.add("hidden");
+
+  document
+    .getElementById("authPage")
+    .classList.remove("hidden");
+}
+
+
+function showSignup(){
+
+  document
+    .getElementById("signupBox")
+    .classList.remove("hidden");
+}
+
+
+function showLogin(){
+
+  document
+    .getElementById("signupBox")
+    .classList.add("hidden");
+}
+
+
+/* =====================================
+   DASHBOARD
+   ===================================== */
+
+function openDashboard(user){
+
+  document
+    .getElementById("authPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("dashboard")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("userEmail")
+    .innerText=user.email;
+
+  document
+    .getElementById("profileEmail")
+    .innerText=user.email;
+
+  showPage("home");
+}
+
+
+function showPage(page){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(el=>el.classList.add("hidden"));
+
+  if(page==="home"){
+    document
+      .getElementById("homePage")
+      .classList.remove("hidden");
+  }
+
+  if(page==="tasks"){
+    document
+      .getElementById("tasksPage")
+      .classList.remove("hidden");
+
+    loadTasks();
+  }
+
+  if(page==="history"){
+    document
+      .getElementById("historyPage")
+      .classList.remove("hidden");
+  }
+
+  if(page==="profile"){
+    document
+      .getElementById("profilePage")
+      .classList.remove("hidden");
+  }
+}
+
+
+/* =====================================
+   LOAD TASKS FROM SUPABASE
+   ===================================== */
+
+async function loadTasks(){
+
+  const list =
+    document.getElementById("taskList");
+
+  list.innerHTML="<p>Loading tasks...</p>";
+
+  const {data,error} =
+    await supabaseClient
+      .from("tasks")
+      .select("id,title,description,reward")
+      .eq("active",true);
+
+  if(error){
+
+    console.error(error);
+
+    list.innerHTML =
+      "<p>Unable to load tasks.</p>";
+
+    return;
+  }
+
+  if(!data || data.length===0){
+
+    list.innerHTML =
+      "<p>No tasks available right now.</p>";
+
+    return;
+  }
+
+  list.innerHTML="";
+
+  data.forEach(task=>{
+
+    const div=document.createElement("div");
+
+    div.className="task";
+
+    const title=document.createElement("h3");
+    title.innerText=task.title || "Task";
+
+    const description=document.createElement("p");
+    description.innerText=
+      task.description || "";
+
+    const reward=document.createElement("div");
+    reward.className="reward";
+    reward.innerText=
+      "Reward: ₹"+Number(task.reward || 0).toFixed(2);
+
+    const button=document.createElement("button");
+    button.innerText="View Task";
+    button.onclick=()=>{
+      startTask(task);
+    };
+
+    div.appendChild(title);
+    div.appendChild(description);
+    div.appendChild(reward);
+    div.appendChild(button);
+
+    list.appendChild(div);
+
+  });
+}
+
+
+/* =====================================
+   TASK BUTTON
+   ===================================== */
+
+function startTask(task){
+
+  alert(
+    "Task: "+task.title+
+    "\n\n"+
+    (task.description || "")+
+    "\n\nReward: ₹"+
+    Number(task.reward || 0).toFixed(2)+
+    "\n\nCompletion will require verification."
+  );
+
+}
+
+
+/* =====================================
+   CHECK EXISTING SESSION
+   ===================================== */
+
+async function checkSession(){
+
+  const {data} =
+    await supabaseClient.auth.getSession();
+
+  if(data && data.session){
+
+    openDashboard(data.session.user);
+
+  }
+
+}
+
+checkSession();
+
+</script>
 
 </body>
 </html>
